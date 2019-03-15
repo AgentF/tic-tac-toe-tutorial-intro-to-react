@@ -1,9 +1,9 @@
 # Tic Tac Toe
 
 A demo of a Tic Tac Toe game, using the main concepts of React.js
-also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutorial from React.js
+also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutorial from React.js.
 
-These are the main concepts I implement with this demo:
+## These are the main concepts I'll try to implement with this demo:
 
 - [x] Main concepts
   - [x] [Hello World](https://reactjs.org/docs/hello-world.html)
