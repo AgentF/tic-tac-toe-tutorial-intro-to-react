@@ -14,3 +14,10 @@ also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutori
   - [X] [Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
   - [X] [Lists and Keys](https://reactjs.org/docs/lists-and-keys.html)
   - [X] [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
+  
+#### To Do:
+  - [ ] Give it a better design.
+  - [ ] Improve the winning detect function.
+  - [ ] Make it resposive.
+  - [ ] Make it a PWA
+  - [ ] Work in some sort of A.I. (?)
