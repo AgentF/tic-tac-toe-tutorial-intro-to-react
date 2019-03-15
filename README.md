@@ -6,10 +6,10 @@ also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutori
 These are the main concepts I implement with this demo:
 
 - [ ] Main concepts
-  - [ ] [Hello World](https://reactjs.org/docs/hello-world.html)
-  - [ ] [Introducing JSX](https://reactjs.org/docs/introducing-jsx.html)
-  - [ ] [Rendering Elements](https://reactjs.org/docs/rendering-elements.html)
-  - [ ] [Components and Props](https://reactjs.org/docs/components-and-props.html)
+  - [x] [Hello World](https://reactjs.org/docs/hello-world.html)
+  - [x] [Introducing JSX](https://reactjs.org/docs/introducing-jsx.html)
+  - [x] [Rendering Elements](https://reactjs.org/docs/rendering-elements.html)
+  - [x] [Components and Props](https://reactjs.org/docs/components-and-props.html)
   - [ ] [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
   - [ ] [Handling Events](https://reactjs.org/docs/handling-events.html)
   - [ ] [Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
