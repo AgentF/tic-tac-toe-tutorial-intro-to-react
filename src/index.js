@@ -58,14 +58,17 @@ class Game extends React.Component {
         },
       ],
       xIsNext: true,
+      stepNumber: 0,
     }
   }
 
   handleClick(i) {
     const {
-      history,
       xIsNext,
+      stepNumber,
     } = this.state;
+
+    const history = this.state.history.slice(0, stepNumber + 1);
     const current = history[history.length - 1];
     const squares = [...current.squares];
     const possibleWinner = calculateWinner(squares);
@@ -73,18 +76,48 @@ class Game extends React.Component {
       return;
     }
     squares[i] = xIsNext ? 'X' : 'O';
-    this.setState({ history: [ ...history, { squares } ], xIsNext: !xIsNext });
+    this.setState({
+      history: [...history, { squares }],
+      xIsNext: !xIsNext,
+      stepNumber: history.length,
+    });
+  }
+
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: (step % 2) === 0,
+    });
   }
 
   render() {
     const {
       history,
       xIsNext,
+      stepNumber,
     } = this.state;
-    const current = history[history.length - 1];
+
+    const current = history[stepNumber];
     const squares = [...current.squares];
     const possibleWinner = calculateWinner(squares);
-    const status = possibleWinner ? `The Winner is: ${possibleWinner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
+    // const status = possibleWinner ? `The Winner is: ${possibleWinner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
+    let status = `Next player: ${xIsNext ? 'X' : 'O'}`;
+    if (possibleWinner)
+      status = `The Winner is: ${possibleWinner}`;
+    else if (squares.every(move => move))
+      status = 'Tie!';
+
+    const moves = history.map((step, move) => {
+      const desc = move ?
+        'Go to move #' + move :
+        'Go to game start';
+      return (
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        </li>
+      );
+    });
+
     return (
       <div className="game">
         <div className="game-board">
@@ -95,7 +128,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
@@ -120,7 +153,7 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  
+
   let output = null;
   lines.forEach(([a, b, c]) => {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c])
