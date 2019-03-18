@@ -3,8 +3,8 @@
 A demo of a Tic Tac Toe game, using the main concepts of React.js
 also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutorial from React.js.
 
-## These are the main concepts I'll try to implement with this demo:
-
+## As I'm going through the React.js [documentation](https://reactjs.org/docs/) I'll try to implement all the concepts
+### These are the main concepts I'll try to implement with this demo:
 - [x] Main concepts
   - [x] [Hello World](https://reactjs.org/docs/hello-world.html)
   - [x] [Introducing JSX](https://reactjs.org/docs/introducing-jsx.html)
@@ -14,3 +14,10 @@ also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutori
   - [X] [Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
   - [X] [Lists and Keys](https://reactjs.org/docs/lists-and-keys.html)
   - [X] [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
+  
+#### To Do:
+  - [ ] Give it a better design.
+  - [ ] Improve the winning detect function.
+  - [ ] Make it resposive.
+  - [ ] Make it a PWA
+  - [ ] Work in some sort of A.I. (?)
