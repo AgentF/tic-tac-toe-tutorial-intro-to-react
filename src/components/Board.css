@@ -1,0 +1,14 @@
+.game-board {
+  --size: 30vh;
+  height: var(--size);
+  width: var(--size);
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  background-color: #4A148C;
+  border-radius: 3px;
+}
+
+.board-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+}

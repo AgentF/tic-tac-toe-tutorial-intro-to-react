@@ -1,0 +1,52 @@
+
+.square {
+  border: none;
+  border-radius: 3px;
+  background-color: transparent;
+  float: left;
+  font-size: 3rem;
+  font-weight: bold;
+  padding: 0;
+  text-align: center;
+  transition: width .3s ease-in-out, height .3s ease-in-out;
+}
+
+.square:hover {
+  background-color: #8E24AA;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .3);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+}
+
+.played-X {
+  color: #ef5350;
+}
+
+.played-O {
+  color: #29B6F6;
+}
+
+.winning {
+  color: #4CAF50;
+}
+
+.selected {
+  animation: 1s selected-animation;
+}
+
+@keyframes selected-animation {
+  from {
+  }
+
+  50% {
+  color: #FDD835;
+  transform: scale(1.1);
+  background-color: #8E24AA;
+  transform: scale(1.1);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, .3);
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+  }
+
+  to {
+  }
+}
