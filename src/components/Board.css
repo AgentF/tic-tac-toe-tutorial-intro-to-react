@@ -4,11 +4,11 @@
   width: var(--size);
   display: grid;
   grid-template-rows: repeat(3, 1fr);
-  background-color: #4A148C;
+  background-color: #4a148c;
   border-radius: 3px;
 }
 
 .board-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
 }

@@ -1,14 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Square.css';
 
-const Square = (props) => {
+const Square = ({ value, id, onClick }) => {
   return (
-    <button className={`square played-${props.value}`} id={props.id}
-      onClick={props.onClick}
+    <button
+      className={`square played-${value}`}
+      type="button"
+      id={id}
+      onClick={onClick}
     >
-      {props.value}
+      {value}
     </button>
   );
-}
+};
+
+Square.propTypes = {
+  value: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default Square;
