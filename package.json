@@ -1,8 +1,12 @@
 {
   "homepage": "https://agentf.github.io/tic-tac-toe-tutorial-intro-to-react/",
   "name": "tic-tac-toe-tutorial-intro-to-react",
-  "version": "0.1.0",
-  "private": true,
+  "author": {
+    "name": "Freddy Mota",
+    "email": "freddyfx231@gmail.com"
+  },
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "gh-pages": "^2.1.1",
     "react": "^16.9.0",

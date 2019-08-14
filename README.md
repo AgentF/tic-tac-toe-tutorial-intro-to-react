@@ -16,7 +16,16 @@ also it was created by [this](https://reactjs.org/tutorial/tutorial.html) tutori
   - [X] [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
   
 #### To Do:
+  - [ ] Change class based components to functional components with hooks.
   - [ ] Give it a better design.
+    - [ ] Do an Interface.
+      - [ ] Design Interface.
+      - [ ] Mockup Interface.
+      - [ ] Implement Interface.
+    - [ ] Use Material Icons.
+      - [ ] Check where needs to be an Icon.
+      - [ ] Mock it up.
+      - [ ] Implement.
   - [ ] Improve the winning detect function.
   - [ ] Make it resposive.
   - [ ] Make it a PWA
