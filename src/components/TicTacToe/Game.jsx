@@ -1,19 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Board from './Board';
+import Info from './Info';
 import calculateWinner from './utils/helper';
-import './Game.css';
 
 const initialState = {
   history: [
     {
-      squares: Array(3).fill(Array(3).fill({ value: null })),
+      squares: Array(3).fill(Array(3).fill({ value: '' })),
     },
   ],
   xIsNext: Math.random() < 0.5,
   stepNumber: 0,
-  movesOrderIsDescending: true,
-  replaying: false,
+  isReplaying: false,
   autoReplayed: false,
 };
 
@@ -22,8 +21,9 @@ class Game extends React.Component {
     super(props);
     this.state = initialState;
 
-    this.replay = this.replay.bind(this);
-    this.reset = this.reset.bind(this);
+    this.handleReplay = this.handleReplay.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.handleJumpTo = this.handleJumpTo.bind(this);
   }
 
   componentDidUpdate() {
@@ -38,7 +38,7 @@ class Game extends React.Component {
       );
   }
 
-  replay(recursion = 'initial') {
+  handleReplay(recursion = 'initial') {
     const { history } = this.state;
     const step = recursion === 'initial' ? 0 : recursion;
     const nextStep = step + 1;
@@ -46,7 +46,7 @@ class Game extends React.Component {
       this.setState({
         stepNumber: step,
         xIsNext: step % 2 === 0,
-        replaying: false,
+        isReplaying: false,
         autoReplayed: true,
       });
     } else {
@@ -54,12 +54,12 @@ class Game extends React.Component {
         {
           stepNumber: step,
           xIsNext: step % 2 === 0,
-          replaying: true,
+          isReplaying: true,
         },
         () => {
           if (nextStep < history.length) {
             setTimeout(() => {
-              this.replay(nextStep);
+              this.handleReplay(nextStep);
             }, 500);
           }
         },
@@ -67,14 +67,14 @@ class Game extends React.Component {
     }
   }
 
-  reset() {
+  handleReset() {
     this.setState(initialState);
   }
 
-  handleClick(i, j) {
-    const { xIsNext, replaying, stepNumber, history } = this.state;
+  handleSquareClick(i, j) {
+    const { xIsNext, isReplaying, stepNumber, history } = this.state;
 
-    if (replaying) return;
+    if (isReplaying) return;
 
     const historyChanged = history.slice(0, stepNumber + 1);
     const current = historyChanged[historyChanged.length - 1];
@@ -93,10 +93,10 @@ class Game extends React.Component {
     });
   }
 
-  jumpTo(step, lastMove) {
-    const { history, replaying } = this.state;
+  handleJumpTo(step, lastMove) {
+    const { history, isReplaying } = this.state;
 
-    if (replaying) return;
+    if (isReplaying) return;
 
     if (lastMove) {
       const [a, b] = lastMove;
@@ -135,91 +135,37 @@ class Game extends React.Component {
     const {
       history,
       xIsNext,
-      replaying,
+      isReplaying,
       stepNumber,
       autoReplayed,
-      movesOrderIsDescending,
     } = this.state;
 
     const current = history[stepNumber];
     const squares = [...current.squares];
     const { winner } = calculateWinner(squares);
+
     let status = `Next player: ${xIsNext ? 'X' : 'O'}`;
     if (winner) {
       status = `The Winner is: ${winner}`;
-      if (!autoReplayed) setTimeout(() => this.replay(), 500);
+      if (!autoReplayed) setTimeout(() => this.handleReplay(), 500);
     } else if (squares.every(row => row.every(({ value }) => value)))
       status = 'Draw!';
 
-    const moves = history.map(({ lastMove }, move) => (
-      <li key={move}>
-        <button
-          className="last-move-button"
-          onClick={() => this.jumpTo(move, lastMove)}
-          type="button"
-        >
-          {move
-            ? `Go to move #${move} ${
-                lastMove ? `(${lastMove[0] + 1}, ${lastMove[1] + 1})` : ''
-              }`
-            : 'Go to game start'}
-        </button>
-      </li>
-    ));
-
     return (
       <div className="game">
-        <div className="game-board">
-          <Board squares={squares} onClick={(i, j) => this.handleClick(i, j)} />
-        </div>
-        <div className="game-info">
-          <div className="status">{status}</div>
-          <div className="options-buttons">
-            <button
-              className="option-button"
-              onClick={() => {
-                this.setState({
-                  movesOrderIsDescending: !movesOrderIsDescending,
-                });
-              }}
-              type="button"
-            >
-              {movesOrderIsDescending ? (
-                <i className="material-icons">arrow_downward</i>
-              ) : (
-                <i className="material-icons">arrow_upward</i>
-              )}
-            </button>
-            <button
-              className="option-button"
-              onClick={() => {
-                if (!replaying) this.replay();
-              }}
-              style={{ fontSize: '18px' }}
-              type="button"
-            >
-              <i
-                className="material-icons"
-                style={{
-                  animation: replaying ? '1s spin infinite linear' : 'none',
-                }}
-              >
-                cached
-              </i>
-            </button>
-            <button
-              className="option-button"
-              onClick={this.reset}
-              style={{ fontSize: '18px' }}
-              type="button"
-            >
-              <i className="material-icons">replay</i>
-            </button>
-          </div>
-          <ol className="last-moves">
-            {movesOrderIsDescending ? moves : [...moves].reverse()}
-          </ol>
-        </div>
+        <Board
+          squares={squares}
+          handleSquareClick={(i, j) => this.handleSquareClick(i, j)}
+        />
+        <Info
+          status={status}
+          isReplaying={isReplaying}
+          squares={squares}
+          history={history}
+          handleReplay={this.handleReplay}
+          handleReset={this.handleReset}
+          handleJumpTo={this.handleJumpTo}
+        />
       </div>
     );
   }
