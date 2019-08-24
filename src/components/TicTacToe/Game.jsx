@@ -1,26 +1,29 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Board from './Board';
-import calculateWinner from '../../helpers/helpers';
+import calculateWinner from './utils/helper';
 import './Game.css';
+
+const initialState = {
+  history: [
+    {
+      squares: Array(3).fill(Array(3).fill({ value: null })),
+    },
+  ],
+  xIsNext: Math.random() < 0.5,
+  stepNumber: 0,
+  movesOrderIsDescending: true,
+  replaying: false,
+  autoReplayed: false,
+};
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      history: [
-        {
-          squares: Array(3).fill(Array(3).fill({ value: null })),
-        },
-      ],
-      xIsNext: Math.random() < 0.5,
-      stepNumber: 0,
-      movesOrderIsDescending: true,
-      replaying: false,
-      autoReplayed: false,
-    };
+    this.state = initialState;
 
     this.replay = this.replay.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidUpdate() {
@@ -62,6 +65,10 @@ class Game extends React.Component {
         },
       );
     }
+  }
+
+  reset() {
+    this.setState(initialState);
   }
 
   handleClick(i, j) {
@@ -191,13 +198,22 @@ class Game extends React.Component {
               style={{ fontSize: '18px' }}
               type="button"
             >
-              <div
+              <i
+                className="material-icons"
                 style={{
                   animation: replaying ? '1s spin infinite linear' : 'none',
                 }}
               >
-                <i className="material-icons">cached</i>
-              </div>
+                cached
+              </i>
+            </button>
+            <button
+              className="option-button"
+              onClick={this.reset}
+              style={{ fontSize: '18px' }}
+              type="button"
+            >
+              <i className="material-icons">replay</i>
             </button>
           </div>
           <ol className="last-moves">
