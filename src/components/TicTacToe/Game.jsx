@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import Board from './Board';
-import calculateWinner from '../helpers/helpers';
+import calculateWinner from '../../helpers/helpers';
 import './Game.css';
 
 class Game extends React.Component {
@@ -177,7 +177,11 @@ class Game extends React.Component {
               }}
               type="button"
             >
-              {movesOrderIsDescending ? '🡅' : '🡇'}
+              {movesOrderIsDescending ? (
+                <i className="material-icons">arrow_downward</i>
+              ) : (
+                <i className="material-icons">arrow_upward</i>
+              )}
             </button>
             <button
               className="option-button"
@@ -192,7 +196,7 @@ class Game extends React.Component {
                   animation: replaying ? '1s spin infinite linear' : 'none',
                 }}
               >
-                ⥁
+                <i className="material-icons">cached</i>
               </div>
             </button>
           </div>

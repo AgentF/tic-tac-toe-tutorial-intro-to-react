@@ -10,7 +10,8 @@ const Square = ({ value, id, onClick }) => {
       id={id}
       onClick={onClick}
     >
-      {value}
+      {value === 'X' ? <i className="material-icons">close</i> : ''}
+      {value === 'O' ? <i className="material-icons">trip_origin</i> : ''}
     </button>
   );
 };

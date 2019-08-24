@@ -2,8 +2,8 @@ import React from 'react';
 import Game from './Game';
 import './index.css';
 
-const index = () => {
+const TicTacToe = () => {
   return <Game />;
 };
 
-export default index;
+export default TicTacToe;
