@@ -147,9 +147,14 @@ class Game extends React.Component {
       ...current.squares.map(row => row.map(square => ({ ...square }))),
     ];
 
-    if (someoneWon || squares[a][b].value !== '') return;
+    if (
+      (someoneWon && stepNumber === history.length) ||
+      squares[a][b].value !== ''
+    )
+      return;
 
     squares[a][b].value = xIsNext ? 'X' : 'O';
+    squares[a][b].status = 1;
     const { winner, positions } = calculateWinner(squares);
     positions.forEach(([x, y]) => {
       history[history.length - 1].squares[x][y].status = 2;
