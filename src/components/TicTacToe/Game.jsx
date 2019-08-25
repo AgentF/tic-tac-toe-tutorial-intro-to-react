@@ -174,7 +174,7 @@ class Game extends React.Component {
 
     if (lastMove) {
       const [a, b] = lastMove;
-      const historySelected = history.slice();
+      const historySelected = [...history];
       historySelected[step].squares[a][b].status = 3;
       const current = historySelected[step];
       const squares = [
@@ -229,6 +229,7 @@ class Game extends React.Component {
           isReplaying={isReplaying}
           squares={squares}
           history={history}
+          stepNumber={stepNumber}
           handleReplay={() => this.handleReplay()}
           handleReset={() => this.handleReset()}
           handleJumpTo={(step, lastMove) => this.handleJumpTo(step, lastMove)}
