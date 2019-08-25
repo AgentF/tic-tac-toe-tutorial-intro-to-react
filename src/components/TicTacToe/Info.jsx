@@ -12,15 +12,15 @@ const Info = ({
 }) => {
   const [movesOrderIsDescending, setMovesOrderIsDescending] = useState(true);
 
-  const moves = history.map(({ lastMove }, move) => (
-    <li key={move}>
+  const moves = history.map(({ lastMove }, step) => (
+    <li key={step}>
       <button
         className="last-move-button"
-        onClick={() => handleJumpTo(move, lastMove)}
+        onClick={() => handleJumpTo(step, lastMove)}
         type="button"
       >
-        {move
-          ? `Go to move #${move} ${
+        {step
+          ? `Go to move #${step} ${
               lastMove ? `(${lastMove[0] + 1}, ${lastMove[1] + 1})` : ''
             }`
           : 'Go to game start'}

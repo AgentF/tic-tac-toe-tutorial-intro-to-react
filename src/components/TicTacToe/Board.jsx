@@ -8,12 +8,11 @@ const Board = ({ squares, handleSquareClick }) => {
     <div className="game-board">
       {squares.map((row, i) => (
         <div className="board-row" key={`row-${i}`}>
-          {row.map(({ value }, j) => (
+          {row.map(({ value, status, id }) => (
             <Square
-              id={`square-${i}-${j}`}
-              key={`square-${i}-${j}`}
-              value={value}
-              onClick={() => handleSquareClick(i, j)}
+              key={id}
+              info={{ value, status, id }}
+              onClick={handleSquareClick}
             />
           ))}
         </div>

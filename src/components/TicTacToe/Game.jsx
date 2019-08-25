@@ -7,7 +7,59 @@ import calculateWinner from './utils/helper';
 const initialState = {
   history: [
     {
-      squares: Array(3).fill(Array(3).fill({ value: '' })),
+      squares: [
+        [
+          {
+            id: 'square-0-0',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-0-1',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-0-2',
+            value: '',
+            status: 0,
+          },
+        ],
+        [
+          {
+            id: 'square-1-0',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-1-1',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-1-2',
+            value: '',
+            status: 0,
+          },
+        ],
+        [
+          {
+            id: 'square-2-0',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-2-1',
+            value: '',
+            status: 0,
+          },
+          {
+            id: 'square-2-2',
+            value: '',
+            status: 0,
+          },
+        ],
+      ],
     },
   ],
   xIsNext: Math.random() < 0.5,
@@ -32,15 +84,19 @@ class Game extends React.Component {
     const current = history[stepNumber];
     const squares = [...current.squares];
     const { positions } = calculateWinner(squares);
+    const historyWinners = history.slice();
+
     if (positions)
-      positions.forEach(([a, b]) =>
-        document.querySelector(`#square-${a}-${b}`).classList.add('winning'),
-      );
+      positions.forEach(([a, b]) => {
+        historyWinners[historyWinners.length - 1].squares[a][b].status = 2;
+      });
   }
 
-  handleReplay(recursion = 'initial') {
+  /*
+    @param  {string}  recursion  Square id ej: square-0-0.
+  */
+  handleReplay(step = 0) {
     const { history } = this.state;
-    const step = recursion === 'initial' ? 0 : recursion;
     const nextStep = step + 1;
     if (nextStep === history.length) {
       this.setState({
@@ -71,11 +127,18 @@ class Game extends React.Component {
     this.setState(initialState);
   }
 
-  handleSquareClick(i, j) {
+  /*
+    @param  {string}  id  Square id ej: square-0-0.
+  */
+  handleSquareClick(id) {
     const { xIsNext, isReplaying, stepNumber, history } = this.state;
 
     if (isReplaying) return;
 
+    const [a, b] = id
+      .substring(id.length - 3)
+      .split('-')
+      .map(index => parseInt(index, 10));
     const historyChanged = history.slice(0, stepNumber + 1);
     const current = historyChanged[historyChanged.length - 1];
     const squares = [
@@ -83,16 +146,20 @@ class Game extends React.Component {
     ];
     const { winner: alreadyWon } = calculateWinner(squares);
 
-    if (alreadyWon || squares[i][j].value) return;
+    if (alreadyWon || squares[a][b].value !== '') return;
 
-    squares[i][j].value = xIsNext ? 'X' : 'O';
+    squares[a][b].value = xIsNext ? 'X' : 'O';
     this.setState({
-      history: [...historyChanged, { squares, lastMove: [i, j] }],
+      history: [...historyChanged, { squares, lastMove: [a, b] }],
       xIsNext: !xIsNext,
       stepNumber: historyChanged.length,
     });
   }
 
+  /*
+    @param  {number}  step      Number of the step to go.  ej: 0.
+    @param  {array}   lastMove  Last move coordinates.     ej: [0, 0].
+  */
   handleJumpTo(step, lastMove) {
     const { history, isReplaying } = this.state;
 
@@ -100,29 +167,22 @@ class Game extends React.Component {
 
     if (lastMove) {
       const [a, b] = lastMove;
-      const current = history[step];
+      const historySelected = history.slice();
+      historySelected[step].squares[a][b].status = 3;
+      const current = historySelected[step];
       const squares = [
         ...current.squares.map(row => row.map(square => ({ ...square }))),
       ];
 
-      this.setState(
-        {
-          history: [
-            ...history.slice(0, step),
-            { squares, lastMove },
-            ...history.slice(step + 1),
-          ],
-          stepNumber: step,
-          xIsNext: step % 2 === 0,
-        },
-        () => {
-          const square = document.querySelector(`#square-${a}-${b}`);
-          square.addEventListener('animationend', () =>
-            square.classList.remove('selected'),
-          );
-          square.classList.add('selected');
-        },
-      );
+      this.setState({
+        history: [
+          ...historySelected.slice(0, step),
+          { squares, lastMove },
+          ...historySelected.slice(step + 1),
+        ],
+        stepNumber: step,
+        xIsNext: step % 2 === 0,
+      });
     } else {
       this.setState({
         stepNumber: step,
@@ -155,7 +215,7 @@ class Game extends React.Component {
       <div className="game">
         <Board
           squares={squares}
-          handleSquareClick={(i, j) => this.handleSquareClick(i, j)}
+          handleSquareClick={id => this.handleSquareClick(id)}
         />
         <Info
           status={status}
@@ -164,7 +224,7 @@ class Game extends React.Component {
           history={history}
           handleReplay={this.handleReplay}
           handleReset={this.handleReset}
-          handleJumpTo={this.handleJumpTo}
+          handleJumpTo={(step, lastMove) => this.handleJumpTo(step, lastMove)}
         />
       </div>
     );
