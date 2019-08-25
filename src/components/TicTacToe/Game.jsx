@@ -65,6 +65,7 @@ const initialState = {
   stepNumber: 0,
   isReplaying: false,
   autoReplayed: false,
+  someoneWon: '',
 };
 
 class Game extends React.Component {
@@ -77,20 +78,6 @@ class Game extends React.Component {
     this.handleJumpTo = this.handleJumpTo.bind(this);
   }
 
-  componentDidUpdate() {
-    const { history, stepNumber } = this.state;
-
-    const current = history[stepNumber];
-    const squares = [...current.squares];
-    const { positions } = calculateWinner(squares);
-    const historyWinners = history.slice();
-
-    if (positions)
-      positions.forEach(([a, b]) => {
-        historyWinners[historyWinners.length - 1].squares[a][b].status = 2;
-      });
-  }
-
   /*
     @param  {string}  recursion  Square id ej: square-0-0.
   */
@@ -98,11 +85,20 @@ class Game extends React.Component {
     const { history } = this.state;
     const nextStep = step + 1;
     if (nextStep === history.length) {
+      const current = history[history.length - 1];
+      const squares = [
+        ...current.squares.map(row => row.map(square => ({ ...square }))),
+      ];
+      const { winner: someoneWon, positions } = calculateWinner(squares);
+      positions.forEach(([x, y]) => {
+        history[history.length - 1].squares[x][y].status = 2;
+      });
       this.setState({
         stepNumber: step,
         xIsNext: step % 2 === 0,
         isReplaying: false,
         autoReplayed: true,
+        someoneWon,
       });
     } else {
       this.setState(
@@ -110,6 +106,7 @@ class Game extends React.Component {
           stepNumber: step,
           xIsNext: step % 2 === 0,
           isReplaying: true,
+          someoneWon: '',
         },
         () => {
           if (nextStep < history.length) {
@@ -130,7 +127,13 @@ class Game extends React.Component {
     @param  {string}  id  Square id ej: square-0-0.
   */
   handleSquareClick(id) {
-    const { xIsNext, isReplaying, stepNumber, history } = this.state;
+    const {
+      xIsNext,
+      isReplaying,
+      stepNumber,
+      history,
+      someoneWon,
+    } = this.state;
 
     if (isReplaying) return;
 
@@ -143,15 +146,20 @@ class Game extends React.Component {
     const squares = [
       ...current.squares.map(row => row.map(square => ({ ...square }))),
     ];
-    const { winner: alreadyWon } = calculateWinner(squares);
 
-    if (alreadyWon || squares[a][b].value !== '') return;
+    if (someoneWon || squares[a][b].value !== '') return;
 
     squares[a][b].value = xIsNext ? 'X' : 'O';
+    const { winner, positions } = calculateWinner(squares);
+    positions.forEach(([x, y]) => {
+      history[history.length - 1].squares[x][y].status = 2;
+    });
+
     this.setState({
       history: [...historyChanged, { squares, lastMove: [a, b] }],
       xIsNext: !xIsNext,
       stepNumber: historyChanged.length,
+      someoneWon: winner,
     });
   }
 
@@ -197,16 +205,16 @@ class Game extends React.Component {
       isReplaying,
       stepNumber,
       autoReplayed,
+      someoneWon,
     } = this.state;
 
     const current = history[stepNumber];
     const squares = [...current.squares];
-    const { winner } = calculateWinner(squares);
 
     let status = `Next player: ${xIsNext ? 'X' : 'O'}`;
-    if (winner) {
-      status = `The Winner is: ${winner}`;
-      if (!autoReplayed) setTimeout(() => this.handleReplay(), 500);
+    if (someoneWon !== '') {
+      status = `The Winner is: ${someoneWon}`;
+      if (!autoReplayed) setTimeout(() => this.handleReplay(), 1000);
     } else if (squares.every(row => row.every(({ value }) => value)))
       status = 'Draw!';
 

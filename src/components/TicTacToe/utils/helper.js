@@ -10,7 +10,7 @@ function calculateWinner(squares) {
     [[0, 2], [1, 1], [2, 0]],
   ];
 
-  let output = { winner: null, positions: false };
+  let output = { winner: '', positions: [] };
   lines.forEach(([[a, b], [c, d], [e, f]]) => {
     if (
       squares[a][b].value &&
