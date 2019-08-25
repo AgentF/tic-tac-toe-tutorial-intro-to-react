@@ -221,8 +221,8 @@ class Game extends React.Component {
           isReplaying={isReplaying}
           squares={squares}
           history={history}
-          handleReplay={this.handleReplay}
-          handleReset={this.handleReset}
+          handleReplay={() => this.handleReplay()}
+          handleReset={() => this.handleReset()}
           handleJumpTo={(step, lastMove) => this.handleJumpTo(step, lastMove)}
         />
       </div>
