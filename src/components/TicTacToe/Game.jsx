@@ -60,6 +60,7 @@ const initialState = {
           },
         ],
       ],
+      lastMove: [],
     },
   ],
   xIsNext: Math.random() < 0.5,
@@ -174,28 +175,29 @@ class Game extends React.Component {
   }
 
   /*
-    @param  {number}  step      Number of the step to go.  ej: 0.
-    @param  {array}   lastMove  Last move coordinates.     ej: [0, 0].
+    @param  {string}  goToID  Last move coordinates.  ej: move #0-0.
   */
-  handleJumpTo(step, lastMove) {
+  handleJumpTo(goToID) {
     const { history, isReplaying } = this.state;
 
     if (isReplaying) return;
-
-    if (lastMove) {
+    const step = history.findIndex(({ id }) => id === goToID);
+    const { squares, lastMove } = history[step];
+    if (lastMove.length > 0) {
       const [a, b] = lastMove;
-      const historySelected = [...history];
-      historySelected[step].squares[a][b].status = 3;
-      const current = historySelected[step];
-      const squares = [
-        ...current.squares.map(row => row.map(square => ({ ...square }))),
-      ];
+      squares[a][b].status = 3;
 
       this.setState({
         history: [
-          ...historySelected.slice(0, step),
-          { id: `move #${step}`, squares, lastMove },
-          ...historySelected.slice(step + 1),
+          ...history.slice(0, step),
+          {
+            id: `move #${step}`,
+            squares: [
+              ...squares.map(row => row.map(square => ({ ...square }))),
+            ],
+            lastMove,
+          },
+          ...history.slice(step + 1),
         ],
         stepNumber: step,
         xIsNext: step % 2 === 0,

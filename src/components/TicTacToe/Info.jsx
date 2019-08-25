@@ -14,11 +14,10 @@ const Info = ({
 }) => {
   const [movesOrderIsDescending, setMovesOrderIsDescending] = useState(true);
 
-  const undoStepNumber = stepNumber - 1 > 0 ? stepNumber - 1 : 0;
-  const undoLastMove = history[undoStepNumber].lastMove;
+  const currentId = history.findIndex(({ id }) => id === `move #${stepNumber}`);
+  const undoStepNumber = currentId > 0 ? currentId - 1 : 0;
   const redoStepNumber =
-    stepNumber + 1 < history.length ? stepNumber + 1 : history.length - 1;
-  const redoLastMove = history[redoStepNumber].lastMove;
+    currentId < history.length - 1 ? currentId + 1 : history.length - 1;
 
   return (
     <div className="game-info">
@@ -41,7 +40,7 @@ const Info = ({
         <button
           className="option-button"
           onClick={() => {
-            handleJumpTo(undoStepNumber, undoLastMove);
+            handleJumpTo(`move #${undoStepNumber}`);
           }}
           type="button"
         >
@@ -51,7 +50,7 @@ const Info = ({
           className="option-button"
           type="button"
           onClick={() => {
-            handleJumpTo(redoStepNumber, redoLastMove);
+            handleJumpTo(`move #${redoStepNumber}`);
           }}
         >
           <i className="material-icons">redo</i>
@@ -71,8 +70,8 @@ const Info = ({
         <GameLog
           history={history}
           stepNumber={stepNumber}
-          handleJumpTo={(pastStep, pastLastMove) => {
-            handleJumpTo(pastStep, pastLastMove);
+          handleJumpTo={id => {
+            handleJumpTo(id);
           }}
         />
       </ol>
