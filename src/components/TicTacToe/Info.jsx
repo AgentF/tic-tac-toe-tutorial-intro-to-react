@@ -1,6 +1,6 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
+import GameLog from './GameLog';
 
 const Info = ({
   status,
@@ -18,36 +18,6 @@ const Info = ({
   const redoStepNumber =
     stepNumber + 1 < history.length ? stepNumber + 1 : history.length - 1;
   const redoLastMove = history[redoStepNumber].lastMove;
-
-  const moves = history.map(({ lastMove: pastLastMove }, step) => {
-    let message = '';
-    if (step === 0) {
-      if (step === stepNumber) {
-        message = 'You are at game start!';
-      } else {
-        message = 'Go to game start';
-      }
-    } else if (step === stepNumber) {
-      message = `Go to last move #${step} ${
-        pastLastMove ? `(${pastLastMove[0] + 1}, ${pastLastMove[1] + 1})` : ''
-      }`;
-    } else {
-      message = `Go to move #${step} ${
-        pastLastMove ? `(${pastLastMove[0] + 1}, ${pastLastMove[1] + 1})` : ''
-      }`;
-    }
-    return (
-      <li key={step}>
-        <button
-          className="last-move-button"
-          onClick={() => handleJumpTo(step, pastLastMove)}
-          type="button"
-        >
-          {step === stepNumber ? <strong>{message}</strong> : message}
-        </button>
-      </li>
-    );
-  });
 
   return (
     <div className="game-info">
@@ -94,7 +64,23 @@ const Info = ({
         </button>
       </div>
       <ol className="last-moves">
-        {movesOrderIsDescending ? moves : [...moves].reverse()}
+        {movesOrderIsDescending ? (
+          <GameLog
+            history={history}
+            stepNumber={stepNumber}
+            handleJumpTo={(pastStep, pastLastMove) => {
+              handleJumpTo(pastStep, pastLastMove);
+            }}
+          />
+        ) : (
+          <GameLog
+            history={[...history].reverse()}
+            stepNumber={stepNumber}
+            handleJumpTo={(pastStep, pastLastMove) => {
+              handleJumpTo(pastStep, pastLastMove);
+            }}
+          />
+        )}
       </ol>
     </div>
   );
