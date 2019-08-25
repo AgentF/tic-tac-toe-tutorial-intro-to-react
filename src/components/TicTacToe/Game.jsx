@@ -6,6 +6,7 @@ import calculateWinner from './utils/helper';
 const initialState = {
   history: [
     {
+      id: 'move #0',
       squares: [
         [
           {
@@ -76,6 +77,7 @@ class Game extends React.Component {
     this.handleReplay = this.handleReplay.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.handleJumpTo = this.handleJumpTo.bind(this);
+    this.handleReverseHistory = this.handleReverseHistory.bind(this);
   }
 
   /*
@@ -161,7 +163,10 @@ class Game extends React.Component {
     });
 
     this.setState({
-      history: [...historyChanged, { squares, lastMove: [a, b] }],
+      history: [
+        ...historyChanged,
+        { id: `move #${stepNumber + 1}`, squares, lastMove: [a, b] },
+      ],
       xIsNext: !xIsNext,
       stepNumber: historyChanged.length,
       someoneWon: winner,
@@ -189,7 +194,7 @@ class Game extends React.Component {
       this.setState({
         history: [
           ...historySelected.slice(0, step),
-          { squares, lastMove },
+          { id: `move #${step}`, squares, lastMove },
           ...historySelected.slice(step + 1),
         ],
         stepNumber: step,
@@ -203,6 +208,15 @@ class Game extends React.Component {
     }
   }
 
+  handleReverseHistory() {
+    const { history } = this.state;
+    const reversedHistory = [...history].reverse();
+
+    this.setState({
+      history: reversedHistory,
+    });
+  }
+
   render() {
     const {
       history,
@@ -213,7 +227,7 @@ class Game extends React.Component {
       someoneWon,
     } = this.state;
 
-    const current = history[stepNumber];
+    const current = history.find(({ id }) => id === `move #${stepNumber}`);
     const squares = [...current.squares];
 
     let status = `Next player: ${xIsNext ? 'X' : 'O'}`;
@@ -238,6 +252,9 @@ class Game extends React.Component {
           handleReplay={() => this.handleReplay()}
           handleReset={() => this.handleReset()}
           handleJumpTo={(step, lastMove) => this.handleJumpTo(step, lastMove)}
+          handleReverseHistory={() => {
+            this.handleReverseHistory();
+          }}
         />
       </div>
     );

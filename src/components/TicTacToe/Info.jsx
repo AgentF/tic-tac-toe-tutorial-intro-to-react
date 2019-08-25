@@ -10,6 +10,7 @@ const Info = ({
   handleReplay,
   handleReset,
   handleJumpTo,
+  handleReverseHistory,
 }) => {
   const [movesOrderIsDescending, setMovesOrderIsDescending] = useState(true);
 
@@ -25,7 +26,10 @@ const Info = ({
       <div className="options-buttons">
         <button
           className="option-button"
-          onClick={() => setMovesOrderIsDescending(!movesOrderIsDescending)}
+          onClick={() => {
+            setMovesOrderIsDescending(!movesOrderIsDescending);
+            handleReverseHistory();
+          }}
           type="button"
         >
           {movesOrderIsDescending ? (
@@ -64,23 +68,13 @@ const Info = ({
         </button>
       </div>
       <ol className="last-moves">
-        {movesOrderIsDescending ? (
-          <GameLog
-            history={history}
-            stepNumber={stepNumber}
-            handleJumpTo={(pastStep, pastLastMove) => {
-              handleJumpTo(pastStep, pastLastMove);
-            }}
-          />
-        ) : (
-          <GameLog
-            history={[...history].reverse()}
-            stepNumber={stepNumber}
-            handleJumpTo={(pastStep, pastLastMove) => {
-              handleJumpTo(pastStep, pastLastMove);
-            }}
-          />
-        )}
+        <GameLog
+          history={history}
+          stepNumber={stepNumber}
+          handleJumpTo={(pastStep, pastLastMove) => {
+            handleJumpTo(pastStep, pastLastMove);
+          }}
+        />
       </ol>
     </div>
   );
@@ -103,6 +97,7 @@ Info.propTypes = {
   handleReplay: propTypes.func.isRequired,
   handleReset: propTypes.func.isRequired,
   handleJumpTo: propTypes.func.isRequired,
+  handleReverseHistory: propTypes.func.isRequired,
 };
 
 export default Info;
