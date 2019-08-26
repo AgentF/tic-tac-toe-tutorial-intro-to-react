@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import GameLog from './GameLog';
+import './Info.css';
 
 const Info = ({
   status,
@@ -25,6 +26,34 @@ const Info = ({
       <div className="options-buttons">
         <button
           className="option-button"
+          onClick={isReplaying ? null : handleReplay}
+          type="button"
+        >
+          <i className="material-icons">cached</i>
+        </button>
+        <button className="option-button" onClick={handleReset} type="button">
+          <i className="material-icons">replay</i>
+        </button>
+      </div>
+      <GameLog
+        history={history}
+        stepNumber={stepNumber}
+        handleJumpTo={id => {
+          handleJumpTo(id);
+        }}
+      />
+      <div className="options-buttons">
+        <button
+          className="option-button"
+          onClick={() => {
+            handleJumpTo(`move #${undoStepNumber}`);
+          }}
+          type="button"
+        >
+          <i className="material-icons">undo</i>
+        </button>
+        <button
+          className="option-button"
           onClick={() => {
             setMovesOrderIsDescending(!movesOrderIsDescending);
             handleReverseHistory();
@@ -39,15 +68,6 @@ const Info = ({
         </button>
         <button
           className="option-button"
-          onClick={() => {
-            handleJumpTo(`move #${undoStepNumber}`);
-          }}
-          type="button"
-        >
-          <i className="material-icons">undo</i>
-        </button>
-        <button
-          className="option-button"
           type="button"
           onClick={() => {
             handleJumpTo(`move #${redoStepNumber}`);
@@ -55,26 +75,7 @@ const Info = ({
         >
           <i className="material-icons">redo</i>
         </button>
-        <button
-          className="option-button"
-          onClick={isReplaying ? null : handleReplay}
-          type="button"
-        >
-          <i className="material-icons">cached</i>
-        </button>
-        <button className="option-button" onClick={handleReset} type="button">
-          <i className="material-icons">replay</i>
-        </button>
       </div>
-      <ol className="last-moves">
-        <GameLog
-          history={history}
-          stepNumber={stepNumber}
-          handleJumpTo={id => {
-            handleJumpTo(id);
-          }}
-        />
-      </ol>
     </div>
   );
 };
@@ -83,9 +84,14 @@ Info.propTypes = {
   status: propTypes.string.isRequired,
   history: propTypes.arrayOf(
     propTypes.shape({
+      id: propTypes.string.isRequired,
       squares: propTypes.arrayOf(
         propTypes.arrayOf(
-          propTypes.shape({ value: propTypes.string.isRequired }).isRequired,
+          propTypes.shape({
+            id: propTypes.string.isRequired,
+            value: propTypes.string.isRequired,
+            status: propTypes.number.isRequired,
+          }).isRequired,
         ).isRequired,
       ).isRequired,
       lastMove: propTypes.arrayOf(propTypes.number),

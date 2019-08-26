@@ -2,6 +2,7 @@ import React from 'react';
 import Board from './Board';
 import Info from './Info';
 import calculateWinner from './utils/helper';
+import './Game.css';
 
 const initialState = {
   history: [

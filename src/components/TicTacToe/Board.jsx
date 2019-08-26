@@ -2,6 +2,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import Square from './Square';
+import './Board.css';
 
 const Board = ({ squares, handleSquareClick }) => {
   return (
