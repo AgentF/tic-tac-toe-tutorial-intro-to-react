@@ -5,11 +5,11 @@ import './Square.css';
 const Square = ({ info: { value, status, id }, onClick }) => {
   let statusClass = 'square';
   switch (status) {
-    case 3:
-      statusClass += ' selected';
-      break;
     case 2:
       statusClass += ' winner';
+      break;
+    case 3:
+      statusClass += ' selected';
       break;
     default:
       break;

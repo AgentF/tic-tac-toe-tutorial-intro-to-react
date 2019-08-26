@@ -20,10 +20,10 @@
   color: #eee;
 }
 
-.square.winner > .material-icons {
-  color: #d81b60;
+.square.selected > .material-icons {
+  color: #ffb300;
 }
 
-.square.selected > .material-icons {
-  /* color: #ffb300; */
+.square.winner > .material-icons {
+  color: #d81b60;
 }
