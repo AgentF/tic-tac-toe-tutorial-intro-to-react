@@ -1,0 +1,29 @@
+.square {
+  height: var(--big);
+  width: var(--big);
+  padding: 5px;
+  background: #673ab7;
+  border: none;
+  cursor: pointer;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.square:not(:last-of-type) {
+  border-right: var(--borderStyle);
+}
+
+.square > .material-icons {
+  font-size: var(--big);
+  color: #eee;
+}
+
+.square.winner > .material-icons {
+  color: #d81b60;
+}
+
+.square.selected > .material-icons {
+  /* color: #ffb300; */
+}

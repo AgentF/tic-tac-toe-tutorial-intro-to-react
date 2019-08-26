@@ -1,0 +1,34 @@
+.last-moves {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 5px;
+  list-style: none;
+}
+
+.last-moves > li {
+  width: 100%;
+  display: flex;
+}
+
+.last-moves > li:not(:last-of-type) {
+  margin-bottom: 2px;
+}
+
+.last-move-button {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 2px;
+  border: none;
+  border-radius: 2px;
+  background: #673ab7;
+  color: #eee;
+  font-size: 1rem;
+  font-family: var(--font);
+}
+
+.last-move-button > strong {
+  color: #d81b60;
+}

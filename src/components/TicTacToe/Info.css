@@ -1,0 +1,40 @@
+.game-info {
+  width: calc(250px - 10px);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin: 5px;
+  padding: 5px;
+  background: #eee;
+  border-radius: 2px;
+  font-family: var(--font);
+}
+
+.game-info > *:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+
+.status {
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.options-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.option-button {
+  height: var(--small);
+  width: var(--small);
+  border: none;
+  border-radius: 2px;
+  margin: 2px;
+  padding: 5px;
+  background: #333;
+  cursor: pointer;
+}
+
+.option-button > .material-icons {
+  color: #ccc;
+}

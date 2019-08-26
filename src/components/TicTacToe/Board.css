@@ -1,0 +1,31 @@
+.game-board {
+  --borderStyle: 3px solid #eee;
+  /* (button size + padding * 3) + (button border * 2) */
+  height: calc(calc(calc(var(--big) + 10px) * 3) + calc(3px * 2));
+  border: var(--borderStyle);
+  border-radius: 2px;
+  margin: 5px;
+}
+
+.board-row {
+}
+
+.board-row:not(:last-of-type) {
+  border-bottom: var(--borderStyle);
+}
+
+.board-row:first-of-type > .square:first-of-type {
+  border-radius: 2px 0 0 0;
+}
+
+.board-row:first-of-type > .square:last-of-type {
+  border-radius: 0 2px 0 0;
+}
+
+.board-row:last-of-type > .square:first-of-type {
+  border-radius: 0 0 0 2px;
+}
+
+.board-row:last-of-type > .square:last-of-type {
+  border-radius: 0 0 2px 0;
+}
