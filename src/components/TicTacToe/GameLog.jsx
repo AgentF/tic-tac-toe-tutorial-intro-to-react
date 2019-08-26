@@ -27,6 +27,7 @@ const GameLog = ({ history, stepNumber, handleJumpTo }) => (
             className="last-move-button"
             onClick={() => handleJumpTo(id)}
             type="button"
+            title={message}
           >
             {id === `move #${stepNumber}` ? (
               <strong>{message}</strong>

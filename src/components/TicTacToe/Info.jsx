@@ -28,11 +28,17 @@ const Info = ({
           className="option-button"
           onClick={isReplaying ? null : handleReplay}
           type="button"
+          title="Replay"
+        >
+          <i className="material-icons">replay</i>
+        </button>
+        <button
+          className="option-button"
+          onClick={handleReset}
+          type="button"
+          title="Reset"
         >
           <i className="material-icons">cached</i>
-        </button>
-        <button className="option-button" onClick={handleReset} type="button">
-          <i className="material-icons">replay</i>
         </button>
       </div>
       <GameLog
@@ -49,6 +55,7 @@ const Info = ({
             handleJumpTo(`move #${undoStepNumber}`);
           }}
           type="button"
+          title="Undo"
         >
           <i className="material-icons">undo</i>
         </button>
@@ -59,6 +66,7 @@ const Info = ({
             handleReverseHistory();
           }}
           type="button"
+          title="Change moves order"
         >
           {movesOrderIsDescending ? (
             <i className="material-icons">arrow_downward</i>
@@ -68,10 +76,11 @@ const Info = ({
         </button> */}
         <button
           className="option-button"
-          type="button"
           onClick={() => {
             handleJumpTo(`move #${redoStepNumber}`);
           }}
+          type="button"
+          title="Redo"
         >
           <i className="material-icons">redo</i>
         </button>

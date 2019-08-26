@@ -15,7 +15,12 @@ const Square = ({ info: { value, status, id }, onClick }) => {
       break;
   }
   return (
-    <button className={statusClass} type="button" onClick={() => onClick(id)}>
+    <button
+      className={statusClass}
+      type="button"
+      title={status > 0 ? 'Played Tile' : 'Playable Tile'}
+      onClick={() => onClick(id)}
+    >
       {value === 'X' ? <i className="material-icons">close</i> : ''}
       {value === 'O' ? <i className="material-icons">trip_origin</i> : ''}
     </button>
