@@ -27,6 +27,11 @@
   color: #eee;
   font-size: 1rem;
   font-family: var(--font);
+  cursor: pointer;
+}
+
+.last-move-button:focus {
+  outline: none;
 }
 
 .last-move-button > strong {
