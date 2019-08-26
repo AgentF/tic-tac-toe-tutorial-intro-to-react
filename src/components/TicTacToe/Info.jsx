@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import GameLog from './GameLog';
 import './Info.css';
@@ -11,9 +11,9 @@ const Info = ({
   handleReplay,
   handleReset,
   handleJumpTo,
-  handleReverseHistory,
+  // handleReverseHistory,
 }) => {
-  const [movesOrderIsDescending, setMovesOrderIsDescending] = useState(true);
+  // const [movesOrderIsDescending, setMovesOrderIsDescending] = useState(true);
 
   const currentId = history.findIndex(({ id }) => id === `move #${stepNumber}`);
   const undoStepNumber = currentId > 0 ? currentId - 1 : 0;
@@ -52,7 +52,7 @@ const Info = ({
         >
           <i className="material-icons">undo</i>
         </button>
-        <button
+        {/* <button
           className="option-button"
           onClick={() => {
             setMovesOrderIsDescending(!movesOrderIsDescending);
@@ -65,7 +65,7 @@ const Info = ({
           ) : (
             <i className="material-icons">arrow_upward</i>
           )}
-        </button>
+        </button> */}
         <button
           className="option-button"
           type="button"
@@ -102,7 +102,7 @@ Info.propTypes = {
   handleReplay: propTypes.func.isRequired,
   handleReset: propTypes.func.isRequired,
   handleJumpTo: propTypes.func.isRequired,
-  handleReverseHistory: propTypes.func.isRequired,
+  // handleReverseHistory: propTypes.func.isRequired,
 };
 
 export default Info;
