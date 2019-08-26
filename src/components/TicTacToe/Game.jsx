@@ -152,7 +152,7 @@ class Game extends React.Component {
     ];
 
     if (
-      (someoneWon && stepNumber === history.length) ||
+      (someoneWon && stepNumber === history.length - 1) ||
       squares[a][b].value !== ''
     )
       return;
