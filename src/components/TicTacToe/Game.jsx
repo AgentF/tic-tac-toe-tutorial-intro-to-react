@@ -161,7 +161,7 @@ class Game extends React.Component {
     squares[a][b].status = 1;
     const { winner, positions } = calculateWinner(squares);
     positions.forEach(([x, y]) => {
-      history[history.length - 1].squares[x][y].status = 2;
+      squares[x][y].status = 2;
     });
 
     this.setState({
